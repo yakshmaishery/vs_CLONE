@@ -1,0 +1,16 @@
+{
+  "name": "multitask",
+  "version": "1.0.0",
+  "description": "This is an Electron App",
+  "main": "APP.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "author": "",
+  "license": "ISC",
+  "devdependencies": {
+    "electron": "^16.0.8",
+    "electron-builder": "^22.14.5"
+  }
+}

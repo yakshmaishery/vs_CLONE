@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+    <title>Document</title>
+    <style>
+        body{margin: 0px;padding: 0px;user-select: none;overflow: hidden;}
+        ::selection{color: black;background-color: aqua;}
+        #container{height: 100%;width: 100%;height: 100%;width: 100%;grid-template-rows: 2em auto 1.3em;display: grid;grid-template-columns: 3em auto;}
+        #titlebar{background-color: rgb(60,60,60);color: white;margin: 0px;display: grid;grid-template-columns: 2em auto 6em;grid-template-rows: 2.5em;grid-row: 1;grid-column: 1/span 2;}
+        #favicon{font-size: 1.3em;margin: 2px;padding: 0px;color: yellowgreen;-webkit-app-region:drag}
+        #title{font-size: 1em;margin: 10px;font-family: Arial, Helvetica, sans-serif;}
+        .mainbtn{font-size: 1em;background-color: rgb(60,60,60);color: white;border: 0px;margin: auto;padding: 0px;font-weight: 100;height: 100%;width: 100%;transition: 0.7s;}
+        .mainbtn:hover{background-color: rgb(241, 235, 235);color: black;}
+        #sidebar{background-color: rgb(51, 51, 51);grid-row: 2;grid-column: 1;}
+        .btn{width: 100%;font-size: x-large;background-color: rgb(51, 51, 51);border: 0px;cursor: pointer;}
+        .btn:hover{background-color: rgb(75, 74, 74);border-left: 1px solid white;}
+        #status{position: sticky;background-color: rgb(0, 122, 204);grid-row: 3;grid-column: 1/span 2;color: white;padding: 3px;font-weight: 100;font-family: Arial, Helvetica, sans-serif;font-size: small;letter-spacing: 1.2px;}
+        #closebtn:hover{background-color: red;color: white;}
+        #bodycontainer{background-color: rgb(30,30,30);grid-column: 2;grid-row: 2;display: flex;flex-direction: row;}
+        /* explorer */
+        #explorerdiv{background-color: rgb(37, 37, 38);resize:horizontal;overflow:auto;width: 13em;}
+        #explorerhead{width: fit-content;text-align: left;background-color: rgb(37, 37, 38);border: 0px;color: white;margin: 10px;cursor: pointer;}
+        #textbody{background-color: rgb(30, 30, 30);height: 100%;width: 100%;display: grid;grid-template-rows: 2.2em auto;}
+        #TabFrame{background-color: rgb(37, 37, 38);overflow-x: auto;overflow-y: hidden;display: flex;flex-direction: row;white-space: nowrap;}
+        .tab{height: 100%;background-color: rgb(45, 45, 45);color: rgb(150,150,150);border: 0px;font-size: medium;margin: auto;}
+        /* scrollbar */
+        ::-webkit-scrollbar{height: 7px;width: 7px;background-color: rgb(30, 30, 30);}
+        ::-webkit-scrollbar-thumb{background-color: rgb(88, 86, 86);border-radius: 10px;}
+        ::-webkit-scrollbar-corner{background-color: rgb(30, 30, 30)}
+        #tooltip_div{position: absolute;background-color: rgb(37, 37, 38);color: white;font-size: medium;margin: 0px;padding: 7px;width: fit-content;font-family: Arial, Helvetica, sans-serif;display: none;border: 1px solid wheat;}
+        /* reset explorer */
+        #reset_explorer{background-color: transparent;color: white;border: 0px;cursor: pointer;font-size: medium;}
+        #find_Replace{position: absolute;right: 1em;top: 2em;background-color: rgb(37, 37, 38);display: grid;padding: 3px;border: 0px;box-shadow: 0px 0px 10px 2px black;display: none;}
+        #find_Replace input[type=text]{padding: 2px;margin: 3px;font-size: medium;color: white;border: 0px solid black;outline: 0px;background-color: rgb(60,60,60);width: 99%;margin: 2px;padding: 1px;}
+        #find_Replace input[type=text]:focus{outline: 1px solid aqua;}
+        .fbtn{background-color: transparent;}
+        .fbtn:hover{background-color: white;}
+        option{background-color: rgb(60,60,60);color: white;}
+        #showbarbtn{position: absolute;bottom: 0.5em;right: 1em;box-shadow: 0px 0px 10px 2px black;font-size: large;border-radius: 100%;height: 2em;width: 2em;color: white;border: 0px;font-weight: bold;background-color: rgb(88, 86, 86);display: none;cursor: pointer;}
+        #fb:hover{background-color: white;}
+        #fb{cursor: pointer;background-color: transparent;border: 1px solid black;font-size: medium;margin: 2px;}
+        #showdetails{position: absolute;top: 2em;background-color: rgba(49, 49, 49, 0.7);height: 100%;width: 100%;align-items: center;transition: 0.7s;transform: rotateY(90deg);}
+        .details{color: yellowgreen;font-size: xx-large;font-family: Arial, Helvetica, sans-serif;-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: black;font-weight: bold;}
+    </style>
+</head>
+<body>
+    <!-- container -->
+    <div id="container">
+        <!-- titlebar -->
+        <header id="titlebar">
+            <p id="favicon">💎</p>
+            <p id="title" style="-webkit-app-region:drag">MULTI-TASK</p>
+            <div style="display: flex;">
+                <button class="mainbtn" id="minbtn">&#9135&#9135</button>
+                <button class="mainbtn" id="maxbtn">▢</button>
+                <button class="mainbtn" id="closebtn">✖</button>
+            </div>
+        </header>
+        <!-- sidebar -->
+        <aside id="sidebar">
+            <button class="btn" id="newbtn">📄</button>
+            <button class="btn" id="openbtn">📂</button>
+            <button class="btn" id="savebtn">💾</button>
+            <button class="btn" id="modifybtn">📝</button>
+            <button class="btn" id="explorerbtn">📖</button>
+            <button class="btn" id="plusbtn">➕</button>
+            <button class="btn" id="minusbtn">➖</button>
+            <button class="btn" id="showExplorer" style="color: white;display: none;">▶</button>
+            <button class="btn" id="settingsbtn" style="color: white">⚙</button>
+            <button class="btn" id="file_detail_show">📑</button>
+            <button class="btn" id="terminalbtn">🗖</button>
+            <button class="btn" id="findbtn">🔍</button>
+            <button class="btn" id="hidebarbtn" style="color: white;">&#9776;</button>
+            <button class="btn" id="helpbtn" style="color: white;">❔</button>
+            <button class="btn" id="fullscrrenbtn" style="color: white;">&#x26F6;</button>
+        </aside>
+        <!-- body file container -->
+        <div id="bodycontainer">
+            <!-- explorer -->
+            <div id="explorerdiv">
+                <!-- explorer button -->
+                <button id="explorerhead">Explorer ◀</button>
+                <button id="reset_explorer">↻</button>
+                <!-- explorer -->
+                <div id="explorer_frame"></div>
+            </div>
+
+            <!-- text body -->
+            <div id="textbody">
+                <!-- Tabs Frame -->
+                <div id="TabFrame"></div>
+                <!-- content body -->
+                <div id="contentbody"></div>
+            </div>
+        </div>
+        <!-- statusbar -->
+        <footer id="status">Status</footer>
+        <!-- tool tip -->
+        <div id="tooltip_div">ToolTip</div>
+
+        <!-- find and replace -->
+        <div id="find_Replace">
+            <div style="display: grid;padding: 3px;grid-template-columns: auto auto 3em;height: 1.2em;">
+                <button class="fbtn" id="replacebtn" style="border: 1pt solid black;border-right: 0px;outline: 0px;cursor: pointer;">Replace</button>
+                <button class="fbtn" id="replaceAllbtn" style="border: 1pt solid black;border-right: 0px;outline: 0px;cursor: pointer;">Replace All</button>
+                <button class="fbtn" id="close_find_btn" style="border: 1pt solid black;outline: 0px;cursor: pointer;">❌</button>
+            </div>
+            <input type="text" name="Findvalue" id="Findvalue" placeholder="From">
+            <input type="text" name="Replacevalue" id="Replacevalue" placeholder="To">
+            <div style="display: flex;flex-direction: row;margin: 1px;"><input type="text" name="FVALUE" id="FVALUE" style="margin: 2px;" placeholder="Find"><button id="fb">🔍</button></div>
+        </div>
+
+        <!-- show sidebars -->
+        <button id="showbarbtn">&#9776;</button>
+
+        <!-- show details -->
+        <div id="showdetails">
+            <button id="closedetails" style="position: absolute;top: 0px;right: 0px;font-size: 3em;background-color: transparent;color: white;border: 0px;cursor: pointer;">✖</button>
+            <table cellspacing="30">
+                <tr>
+                    <tr></tr>
+                </tr>
+                <tr>
+                    <td class="details">File name</td>
+                    <td class="details" id="showname"></td> 
+                </tr>
+                <tr>
+                    <td class="details">File Paths</td>
+                    <td class="details" id="showpath"></td> 
+                </tr>
+                <tr>
+                    <td class="details">File Size</td>
+                    <td class="details" id="showsize"></td> 
+                </tr>
+                <tr>
+                    <td class="details">File Extension</td>
+                    <td class="details" id="showext"></td> 
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
