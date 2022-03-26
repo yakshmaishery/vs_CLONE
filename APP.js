@@ -17,7 +17,7 @@ let window = () => {
     root = new BrowserWindow({
         x:0,
         y:0,
-        // frame:false,
+        frame:false,
         webPreferences:{
             webSecurity:true,
             preload:path.join(app.getAppPath(),"Renderer.js"),
